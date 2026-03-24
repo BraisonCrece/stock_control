@@ -16,6 +16,11 @@ module StockControl
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # NOTE: Ideally use :sql format to capture FTS5 virtual tables,
+    # but requires sqlite3 CLI in the container. FTS5 tables are
+    # managed via migrations directly.
+    # config.active_record.schema_format = :sql
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
