@@ -1,50 +1,55 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <% if alert = flash[:alert] %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
-  <% end %>
+<div class="flex min-h-[60vh] items-center justify-center">
+  <div class="w-full max-w-md p-8 rounded-xl card-hover" style="background-color: var(--bg-card); border: 1px solid var(--border); box-shadow: 0 4px 24px rgba(44, 24, 16, 0.06);">
+    <h1 class="text-2xl font-bold text-center mb-1" style="font-family: 'Playfair Display', serif; color: var(--text-primary);">Crear cuenta</h1>
+    <p class="text-center text-sm mb-6" style="color: var(--text-muted);">Registrate en StockControl</p>
 
-  <h1 class="font-bold text-4xl">Sign up</h1>
+    <div class="separator-diamond mb-6"><span>&#9670;</span></div>
 
-  <%= form_with model: @user, url: registration_path, class: "contents" do |form| %>
-    <% if @user.errors.any? %>
-      <div class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-        <ul>
-          <% @user.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
+    <% if alert = flash[:alert] %>
+      <div class="px-4 py-3 rounded-lg text-sm mb-4" style="background-color: #F4DCDC; border: 1px solid #E0B8B8; color: #7F3333;"><%= alert %></div>
     <% end %>
 
-    <div class="my-5">
-      <%= form.label :nombre, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :nombre, required: true, autofocus: true, placeholder: "Enter your name", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
+    <%= form_with model: @user, url: registration_path, class: "space-y-5" do |form| %>
+      <% if @user.errors.any? %>
+        <div class="px-4 py-3 rounded-lg text-sm" style="background-color: #F4DCDC; border: 1px solid #E0B8B8; color: #7F3333;">
+          <h3 class="font-semibold mb-1">Se encontraron <%= pluralize(@user.errors.count, "error") %>:</h3>
+          <ul class="list-disc list-inside text-sm">
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-    <div class="my-5">
-      <%= form.label :email_address, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.email_field :email_address, required: true, autocomplete: "username", placeholder: "Enter your email address", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-
-    <div class="my-5">
-      <%= form.label :password, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Enter your password", maxlength: 72, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-
-    <div class="my-5">
-      <%= form.label :password_confirmation, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Confirm your password", maxlength: 72, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-
-    <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-      <div class="inline">
-        <%= form.submit "Sign up", class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+      <div>
+        <%= form.label :nombre, "Nombre", class: "block text-sm font-medium mb-1", style: "color: var(--text-secondary);" %>
+        <%= form.text_field :nombre, required: true, autofocus: true, placeholder: "Tu nombre" %>
       </div>
 
-      <div class="mt-4 text-sm text-gray-500 sm:mt-0">
-        Already have an account? <%= link_to "Sign in", new_session_path, class: "text-gray-700 underline hover:no-underline" %>
+      <div>
+        <%= form.label :email_address, "Correo electronico", class: "block text-sm font-medium mb-1", style: "color: var(--text-secondary);" %>
+        <%= form.email_field :email_address, required: true, autocomplete: "username", placeholder: "tu@correo.com" %>
       </div>
-    </div>
-  <% end %>
+
+      <div>
+        <%= form.label :password, "Contrasena", class: "block text-sm font-medium mb-1", style: "color: var(--text-secondary);" %>
+        <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Minimo 6 caracteres", maxlength: 72 %>
+      </div>
+
+      <div>
+        <%= form.label :password_confirmation, "Confirmar contrasena", class: "block text-sm font-medium mb-1", style: "color: var(--text-secondary);" %>
+        <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Repite tu contrasena", maxlength: 72 %>
+      </div>
+
+      <div>
+        <%= form.submit "Crear cuenta", class: "w-full rounded-lg px-4 py-2.5 text-sm font-semibold cursor-pointer transition-colors", style: "background-color: var(--accent); color: #FAF7F2;", onmouseover: "this.style.backgroundColor='#9A7209'", onmouseout: "this.style.backgroundColor='#B8860B'" %>
+      </div>
+
+      <div class="separator-diamond mt-6 mb-2"><span>&#9670;</span></div>
+
+      <div class="text-center text-sm" style="color: var(--text-muted);">
+        Ya tienes cuenta? <%= link_to "Iniciar sesion", new_session_path, class: "font-medium transition-colors", style: "color: var(--accent);", onmouseover: "this.style.color='#9A7209'", onmouseout: "this.style.color='#B8860B'" %>
+      </div>
+    <% end %>
+  </div>
 </div>

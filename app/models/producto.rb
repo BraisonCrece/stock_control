@@ -16,10 +16,13 @@ class Producto < ApplicationRecord
 
   scope :buscar, ->(termino) {
     return all if termino.blank?
-    sanitized = termino.gsub(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ\s]/, '').strip
+    sanitized = termino.gsub(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ\s]/, "").strip
     return all if sanitized.blank?
     quoted = sanitized.split.map { |t| "\"#{t}\"*" }.join(" ")
-    where("id IN (SELECT rowid FROM productos_fts WHERE productos_fts MATCH ?)", quoted)
+    stmt = connection.raw_connection.prepare("SELECT rowid FROM productos_fts WHERE productos_fts MATCH ?")
+    ids = stmt.execute(quoted).map { |row| row["rowid"] }
+    stmt.close
+    ids.any? ? where(id: ids) : none
   }
 
   scope :por_categoria, ->(cat) { where(categoria: cat) if cat.present? }
